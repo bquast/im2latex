@@ -12,7 +12,7 @@ class Vocab(object):
     def load_vocab(self):
         special_tokens = [self.config.unk, self.config.pad, self.config.end]
         self.tok_to_id = load_tok_to_id(self.config.path_vocab, special_tokens)
-        self.id_to_tok = {idx: tok for tok, idx in self.tok_to_id.iteritems()}
+        self.id_to_tok = {idx: tok for tok, idx in self.tok_to_id.items()}
         self.n_tok = len(self.tok_to_id)
 
         self.id_pad = self.tok_to_id[self.config.pad]
@@ -130,16 +130,16 @@ def pad_batch_formulas(formulas, id_pad, id_end, max_len=None):
 
     """
     if max_len is None:
-        max_len = max(map(lambda x: len(x), formulas))
+        max_len = max(map(lambda x: len(list(x)), formulas))
 
     batch_formulas = id_pad * np.ones([len(formulas), max_len+1],
             dtype=np.int32)
     formula_length = np.zeros(len(formulas), dtype=np.int32)
     for idx, formula in enumerate(formulas):
-        batch_formulas[idx, :len(formula)] = np.asarray(formula,
+        batch_formulas[idx, :len(list(formula))] = np.asarray(list(formula),
                 dtype=np.int32)
-        batch_formulas[idx, len(formula)]  = id_end
-        formula_length[idx] = len(formula) + 1
+        batch_formulas[idx, len(list(formula))]  = id_end
+        formula_length[idx] = len(list(formula)) + 1
 
     return batch_formulas, formula_length
 

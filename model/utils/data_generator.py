@@ -114,7 +114,7 @@ class DataGenerator(object):
             data_buckets[s] += [(img_path, formula_id)]
 
         # write the rest of the buffer
-        for k, v in data_buckets.iteritems():
+        for k, v in data_buckets.items():
             for (img_path, formula_id) in v:
                 bucketed_dataset += [(img_path, formula_id)]
 
@@ -179,7 +179,7 @@ class DataGenerator(object):
             inst = (img, formula, img_path, formula_id)
 
         # filter on the formula length
-        if self._max_len is not None and len(formula) > self._max_len:
+        if self._max_len is not None and len(list(formula)) > self._max_len:
             skip = True
         else:
             skip = False
